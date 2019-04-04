@@ -1,76 +1,10 @@
-# MGEDATA-SEARCH 开发文档
+# MongoDB 使用 Elasitcsearch 提供检索支持
 
 **requirements**
 
 - elasticsearch=5.5.3
 - kibana=5.5.3
 - mongodb=3.4
-
-## 1 Search API
-| 端点                                  | HTTP方法 | 功能          |
-| ----------------------------------- | ------ | ----------- |
-| {host}/api/v1/search/q              | GET    | 获取全部文档      |
-| {host}/api/v1/search/q?words=:words | GET    | 全文检索        |
-| {host}/api/v1/search/q              | POST   | 高级检索        |
-| {host}/api/v1/search/q?type=simple  | POST   | simple 高级检索 |
-
-### 全文检索
-```javascript
-GET {host}/api/v1/search/q
-GET {host}/api/v1/search/q?word=[word]
-```
-\[word\]存放查询的关键词句
-
-### 高级检索
-#### formal
-```javascript
-POST {host}/api/v1/search/q
-{
-    "query": {
-        ...
-    }
-    "highlight": {
-        ...
-    }
-    ...
-}
-```
-json格式应与elasticsearch的格式一致, 比如
-```javascript
-POST {host}/api/v1/search/q
-{
-    "query": {
-        "bool": {
-            "must": {
-                "match": {"age": 13}
-            }
-
-            "filter": {
-                "term": {"name": "xx"}
-            }
-        }
-    }
-    "highlight": {
-        ...
-    }
-}
-```
-
-#### simple
-可以一条一条输入字段的限制
-```javascript
-POST {host}/api/v1/search/q?type=simple
-{
-    "query":
-    [
-        {"type":"must", "filter_type":"range", "name":"xxx", content:{}},
-        {"type":"must_not", "filter_type":"term", "name":"xxx", content:{}},
-        {"type":"should", "filter_type":"terms", "name":"xxx", content:{}},
-        ...
-    ]
-}
-```
-
 
 ## 2 配置 elasticsearch 用于全文搜索
 
