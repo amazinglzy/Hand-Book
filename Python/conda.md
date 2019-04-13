@@ -11,3 +11,9 @@
     ```
     conda info --envs
     ```
+
+3. 修改环境名称
+
+    ```
+    conda --create <new_name> --clone <old_name>
+    ```
